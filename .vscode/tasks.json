@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build and Install Package",
+			"type": "shell",
+			"command": "pip install -e .",
+			"group": "build",
+			"isBackground": false,
+			"problemMatcher": []
+		}
+	]
+}
