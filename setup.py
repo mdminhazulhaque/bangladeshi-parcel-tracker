@@ -3,15 +3,30 @@
 
 from setuptools import setup, find_packages
 
-with open("README.md", "r", encoding="utf-8") as fh:
+# Get the current directory
+current_directory = os.path.abspath(os.path.dirname(__file__))
+
+# Read the README file
+with open(os.path.join(current_directory, "README.md"), "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
-with open("requirements.txt", "r", encoding="utf-8") as fh:
-    requirements = [line.strip() for line in fh if line.strip() and not line.startswith("#")]
+# Read the requirements file
+requirements_path = os.path.join(current_directory, 'requirements.txt')
+if os.path.isfile(requirements_path):
+    with open(requirements_path, 'r') as f:
+        install_requires = [line.strip() for line in f if line.strip() and not line.startswith('#')]
+else:
+    install_requires = ['requests>=2.25.0', 'click>=8.0.0', 'tabulate>=0.8.0']
+
+# Get version from GitHub Actions environment variables if available
+version = '1.0.0'  # Default version
+if 'GITHUB_RUN_NUMBER' in os.environ:
+    run_number = os.environ.get('GITHUB_RUN_NUMBER')
+    version = f"1.{run_number}.0"
 
 setup(
     name="bangladeshi-parcel-tracker",
-    version="0.1.0",
+    version=version,
     author="Minhaz",
     author_email="your.email@example.com",
     description="A Python package for tracking parcels from Bangladeshi courier services",
@@ -33,7 +48,7 @@ setup(
         "Programming Language :: Python :: 3.12",
     ],
     python_requires=">=3.8",
-    install_requires=requirements,
+    install_requires=install_requires,
     entry_points={
         "console_scripts": [
             "bangladeshi-parcel-tracker=bangladeshi_parcel_tracker.cli:main",

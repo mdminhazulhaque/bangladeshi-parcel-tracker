@@ -2,18 +2,6 @@
 
 A Python package for tracking parcels from various Bangladeshi courier services including Redx, Steadfast, Pathao, and Rokomari.
 
-[![CI](https://github.com/yourusername/bangladeshi-parcel-tracker/workflows/CI/badge.svg)](https://github.com/yo# Install in development mode
-pip install -e ".[dev]"
-
-# Format code
-black src/
-
-# Lint code
-flake8 src/
-
-# Type checking
-mypy src/
-```eshi-parcel-tracker/actions/workflows/ci.yml)
 [![PyPI version](https://badge.fury.io/py/bangladeshi-parcel-tracker.svg)](https://badge.fury.io/py/bangladeshi-parcel-tracker)
 [![Python versions](https://img.shields.io/pypi/pyversions/bangladeshi-parcel-tracker.svg)](https://pypi.org/project/bangladeshi-parcel-tracker/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -24,10 +12,10 @@ mypy src/
 - 📦 Unified tracking interface across all providers
 - ⏱️ Detailed timeline of parcel journey
 - 🎯 Easy-to-use delivery status checking
-- 🔄 Automatic status updates and refresh
+- 🔄 Real-time tracking with live API integration
 - 📊 Comprehensive tracking event data
 - 🐍 Python 3.8+ support
-- ✅ Fully typed with comprehensive test coverage
+- 🛠️ Command-line interface included
 
 ## Supported Courier Services
 
@@ -38,7 +26,7 @@ mypy src/
 
 ## Installation
 
-Install the package using pip:
+The package is available on PyPI. Install it using pip:
 
 ```bash
 pip install bangladeshi-parcel-tracker
@@ -49,7 +37,7 @@ For development installation:
 ```bash
 git clone https://github.com/yourusername/bangladeshi-parcel-tracker.git
 cd bangladeshi-parcel-tracker
-pip install -e ".[dev]"
+pip install -e .
 ```
 
 ## Quick Start
@@ -84,15 +72,18 @@ from bangladeshi_parcel_tracker import (
 
 tracking_number = "YOUR_TRACKING_NUMBER"
 
+# For Pathao and Rokomari, you may need phone number
+phone_number = "01700000000"  # Required for some providers
+
 # Choose your provider
-providers = {
+trackers = {
     'redx': RedxTracker(tracking_number),
     'steadfast': SteadfastTracker(tracking_number),
-    'pathao': PathaoTracker(tracking_number),
-    'rokomari': RokomariTracker(tracking_number)
+    'pathao': PathaoTracker(tracking_number, phone=phone_number),
+    'rokomari': RokomariTracker(tracking_number, phone=phone_number)
 }
 
-for name, tracker in providers.items():
+for name, tracker in trackers.items():
     try:
         events = tracker.track()
         print(f"\\n{tracker.provider_name} Tracking:")
@@ -113,7 +104,7 @@ The package includes a powerful CLI for tracking parcels from the terminal:
 
 ### Installation & Usage
 
-After installing the package, you can use the `bangladeshi-parcel-tracker` command:
+After installing the package from pip, you can use the `bangladeshi-parcel-tracker` command:
 
 ```bash
 # Basic usage
@@ -135,11 +126,11 @@ bangladeshi-parcel-tracker redx RDX123456789
 # Track with Steadfast (status only)
 bangladeshi-parcel-tracker steadfast SF987654321 --status-only
 
-# Track with Pathao (JSON output)
-bangladeshi-parcel-tracker pathao PA456789123 --json
+# Track with Pathao (JSON output) - requires phone number
+bangladeshi-parcel-tracker pathao PA456789123 --phone 01700000000 --json
 
-# Track with Rokomari (detailed timeline)
-bangladeshi-parcel-tracker rokomari RK789123456 --detailed
+# Track with Rokomari (detailed timeline) - requires phone number
+bangladeshi-parcel-tracker rokomari RK789123456 --phone 01700000000 --detailed
 ```
 
 ### CLI Options
@@ -147,6 +138,7 @@ bangladeshi-parcel-tracker rokomari RK789123456 --detailed
 - `--status-only`, `-s`: Show only the current delivery status
 - `--detailed`, `-d`: Show detailed timeline with all events (default)
 - `--json`, `-j`: Output results in JSON format
+- `--phone`, `-p`: Phone number (required for Pathao and Rokomari)
 - `--version`, `-v`: Show version information
 - `--help`, `-h`: Show help message
 
@@ -282,32 +274,10 @@ git clone https://github.com/yourusername/bangladeshi-parcel-tracker.git
 cd bangladeshi-parcel-tracker
 
 # Install in development mode
-pip install -e ".[dev]"
-
-# Run tests
-pytest
-
-# Run tests with coverage
-pytest --cov=bangladeshi_parcel_tracker --cov-report=html
+pip install -e .
 
 # Format code
-black src/ tests/
-
-# Lint code
-flake8 src/ tests/
-
-# Type checking
-mypy src/
-```
-
-### Format code
 black src/
-
-# Lint code
-flake8 src/
-
-# Type checking
-mypy src/
 ```
 
 ## Contributing
@@ -318,20 +288,7 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 
 1. Follow the existing code style (Black formatting)
 2. Update documentation as needed
-3. Ensure code passes linting and type checking
-
-### Provider Implementation
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
-
-### Guidelines
-
-1. Follow the existing code style (Black formatting)
-2. Add tests for any new functionality
-3. Update documentation as needed
-4. Ensure all tests pass
+3. Ensure your changes work with the existing API structure
 
 ### Provider Implementation
 
@@ -361,17 +318,9 @@ class NewProviderTracker(BaseTracker):
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Changelog
-
-### v0.1.0
-- Initial release
-- Support for Redx, Steadfast, Pathao, and Rokomari
-- Base tracking functionality
-- Command Line Interface (CLI)
-- GitHub Actions CI/CD
-
 ## Acknowledgments
 
+- Available on PyPI as `bangladeshi-parcel-tracker`
 - Thanks to all Bangladeshi courier services for their tracking systems
 - Built with ❤️ for the Bangladeshi developer community
 
@@ -379,4 +328,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 This package is not officially affiliated with any of the courier services. It's an independent tool created to help developers integrate parcel tracking functionality into their applications.
 
-**Note**: The current implementation includes placeholder/mock data for demonstration purposes. Real implementations would require proper HTTP requests and HTML/API parsing specific to each courier service's tracking system.
+The package uses publicly available tracking APIs and websites to fetch parcel information. Please use responsibly and respect the terms of service of each courier provider.
