@@ -49,7 +49,7 @@ Examples:
     parser.add_argument(
         "--phone",
         "-p",
-        help="Phone number (required for Pathao tracking)",
+        help="Phone number (required for Pathao and Rokomari tracking)",
     )
 
     parser.add_argument(
@@ -93,10 +93,14 @@ def get_tracker(provider: str, tracking_number: str, phone: str = ""):
     if not tracker_class:
         raise ValueError(f"Unsupported provider: {provider}")
 
-    # Pathao requires phone number
+    # Pathao and Rokomari require phone number
     if provider.lower() == "pathao":
         if not phone:
             raise ValueError("Phone number is required for Pathao tracking. Use --phone option.")
+        return tracker_class(tracking_number, phone)
+    elif provider.lower() == "rokomari":
+        if not phone:
+            raise ValueError("Phone number is required for Rokomari tracking. Use --phone option.")
         return tracker_class(tracking_number, phone)
     else:
         return tracker_class(tracking_number)
