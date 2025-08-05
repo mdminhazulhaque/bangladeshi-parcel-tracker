@@ -1,6 +1,6 @@
 # Bangladeshi Parcel Tracker
 
-A Python package for tracking parcels from various Bangladeshi courier services including Redx, Steadfast, Pathao, and Rokomari.
+A Python package for tracking parcels from various Bangladeshi courier services including Redx, Steadfast, Pathao, Rokomari, and Sundarban.
 
 [![PyPI version](https://badge.fury.io/py/bangladeshi-parcel-tracker.svg)](https://badge.fury.io/py/bangladeshi-parcel-tracker)
 [![Python versions](https://img.shields.io/pypi/pyversions/bangladeshi-parcel-tracker.svg)](https://pypi.org/project/bangladeshi-parcel-tracker/)
@@ -23,6 +23,7 @@ A Python package for tracking parcels from various Bangladeshi courier services 
 - **Steadfast** - Reliable delivery solutions
 - **Pathao** - Fast and efficient courier service  
 - **Rokomari** - Book and product delivery specialist
+- **Sundarban** - Comprehensive logistics and courier solutions
 
 ## Installation
 
@@ -67,7 +68,7 @@ for event in events:
 ```python
 from bangladeshi_parcel_tracker import (
     RedxTracker, SteadfastTracker, 
-    PathaoTracker, RokomariTracker
+    PathaoTracker, RokomariTracker, SundarbanTracker
 )
 
 tracking_number = "YOUR_TRACKING_NUMBER"
@@ -80,7 +81,8 @@ trackers = {
     'redx': RedxTracker(tracking_number),
     'steadfast': SteadfastTracker(tracking_number),
     'pathao': PathaoTracker(tracking_number, phone=phone_number),
-    'rokomari': RokomariTracker(tracking_number, phone=phone_number)
+    'rokomari': RokomariTracker(tracking_number, phone=phone_number),
+    'sundarban': SundarbanTracker(tracking_number)
 }
 
 for name, tracker in trackers.items():
@@ -131,6 +133,9 @@ bangladeshi-parcel-tracker pathao PA456789123 --phone 01700000000 --json
 
 # Track with Rokomari (detailed timeline) - requires phone number
 bangladeshi-parcel-tracker rokomari RK789123456 --phone 01700000000 --detailed
+
+# Track with Sundarban (detailed timeline)
+bangladeshi-parcel-tracker sundarban 70003000778899 --detailed
 ```
 
 ### CLI Options

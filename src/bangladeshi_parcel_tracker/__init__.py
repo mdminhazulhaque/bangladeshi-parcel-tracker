@@ -4,7 +4,7 @@ A Python package for tracking parcels from various Bangladeshi courier services.
 """
 
 from .base import BaseTracker, TrackingEvent, TrackingStatus, TrackingError
-from .providers import RedxTracker, SteadfastTracker, PathaoTracker, RokomariTracker
+from .providers import RedxTracker, SteadfastTracker, PathaoTracker, RokomariTracker, SundarbanTracker
 from . import cli
 
 __all__ = [
@@ -16,6 +16,7 @@ __all__ = [
     "SteadfastTracker",
     "PathaoTracker",
     "RokomariTracker",
+    "SundarbanTracker",
     "cli",
 ]
 

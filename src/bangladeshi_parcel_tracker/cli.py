@@ -4,7 +4,7 @@ import argparse
 import sys
 from typing import Optional
 
-from .providers import RedxTracker, SteadfastTracker, PathaoTracker, RokomariTracker
+from .providers import RedxTracker, SteadfastTracker, PathaoTracker, RokomariTracker, SundarbanTracker
 from .base import TrackingError
 
 
@@ -28,6 +28,9 @@ Examples:
   # Track with Rokomari
   bangladeshi-parcel-tracker rokomari RK789123456
   
+  # Track with Sundarban
+  bangladeshi-parcel-tracker sundarban 70003000778899
+  
   # Show only delivery status
   bangladeshi-parcel-tracker redx RDX123456789 --status-only
   
@@ -38,7 +41,7 @@ Examples:
 
     parser.add_argument(
         "provider",
-        choices=["redx", "steadfast", "pathao", "rokomari"],
+        choices=["redx", "steadfast", "pathao", "rokomari", "sundarban"],
         help="Courier service provider",
     )
 
@@ -87,6 +90,7 @@ def get_tracker(provider: str, tracking_number: str, phone: str = ""):
         "steadfast": SteadfastTracker,
         "pathao": PathaoTracker,
         "rokomari": RokomariTracker,
+        "sundarban": SundarbanTracker,
     }
 
     tracker_class = trackers.get(provider.lower())
